@@ -7,7 +7,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class PrimeDecomp {
-
     public static String factors(int n) {
         String decomp = new String("");
         int resutl = n/2;
@@ -29,7 +28,7 @@ public class PrimeDecomp {
             return calculate(n1,n2,new AtomicInteger(2));
         }).thenCompose(s -> CompletableFuture.supplyAsync(() -> {
             String b = new String(s);
-            if(s.isEmpty() && valueIsPrime(n)){
+            if(s.isEmpty() && isPrime(n)){
                 b = "(" + String.valueOf(n) + ")(found)";
             }
             return b;
@@ -56,19 +55,7 @@ public class PrimeDecomp {
         return decomp;
     }
 
-    public static boolean valueIsPrime(int n) {
-        //check if n is a multiple of 2
-        if (n%2==0) return true;
-        //if not, then just check the odds
-        for(int i=3;i*i<=n;i+=2) {
-            if(n%i==0)
-                return false;
-        }
-        return true;
-    }
-
-
-    public static boolean isPrime2(int n) {
+    public static boolean isPrime(int n) {
         //check if n is a multiple of 2
         if (n%2==0) return true;
         //if not, then just check the odds
@@ -87,7 +74,7 @@ public class PrimeDecomp {
             int i =  range.get();
             for ( ; i <= n1.get() && n2.get() > 1  ;i++)
             {
-                if(isPrime2(i)){
+                if(isPrime(i)){
                     if(n2.get()%i != 0)    continue;
                     int count = 0;
                     while(n2.get()%i == 0)
@@ -115,5 +102,5 @@ public class PrimeDecomp {
         }
         return  String.join(new String(), localResult);
     }
-
 }
+
